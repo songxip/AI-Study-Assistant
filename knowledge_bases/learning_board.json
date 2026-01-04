@@ -1,0 +1,21 @@
+{
+    "tasks": [
+        {
+            "id": "task0",
+            "title": "复习",
+            "est_minutes": 30,
+            "completed": true,
+            "created": "2025-12-13"
+        }
+    ],
+    "study_records": [
+        {
+            "date": "2025-12-22",
+            "minutes": 9
+        },
+        {
+            "date": "2025-12-24",
+            "minutes": 8
+        }
+    ]
+}

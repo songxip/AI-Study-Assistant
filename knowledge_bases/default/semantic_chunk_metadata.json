@@ -1,0 +1,737 @@
+[
+    {
+        "id": "chunk0",
+        "chunk": "Machine Learning Today: • Decision tree • Overfitting Function Approximation: Problem Setting: • Set of possible instances X • Unknown target function f : XàY • Set of function hypotheses H={ h | h : XàY } Input: • Training examples {<x(i),y(i)>} of unknown target function f Output: • Hypothesis h ∈ H that best approximates target function f Stages of (Batch) Machine Learning Given: labeled training data • Assumes each with Train the model: model ß classiﬁer.train(X, Y ) Apply the model to new data: • Given: new unlabeled instance ypredicIon ß model.predict(x) model learner X, Y x ypredicIon X, Y = {hxi, yii}n i=1 xi ⇠D(X) yi = ftarget(xi) x ⇠D(X) Function Approximation: Decision Tree Learning Problem Setting: • Set of possible instances X – each instance x in X is a feature vector x = < x1, x2 … xn> • Unknown target function f : XàY – Y is discrete valued • Set of function hypotheses H={ h | h : XàY } – each hypothesis h is a decision tree Input: • Training examples {<x(i),y(i)>} of unknown target function f Output: • Hypothesis h ∈ H that best approximates target function f Sample Dataset • Columns denote features Xi • Rows denote labeled instances • Class label denotes whether a tennis game was played hxi, yii hxi, yii Decision Tree • A possible decision tree for the data: • Each internal node: test one aHribute Xi • Each branch from a node: selects one value for Xi • Each leaf node: predict Y (or ) p(Y | x 2 leaf) Decision Tree • If features are conInuous, internal nodes can test the value of a feature against a threshold Problem Setting: • Set of possible instances X – each instance x in X is a feature vector – e.g., <Humidity=low, Wind=weak, Outlook=rain, Temp=hot> • Unknown target function f : XY – Y is discrete valued • Set of function hypotheses H={ h | h : XY } – each hypothesis h is a decision tree – trees sorts x to leaf, which assigns y Decision Tree Learning Function approximation as Search for the best hypothesis • ID3 performs heuristic search through space of decision trees Which Tree Should We Output",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk1",
+        "chunk": "• ID3 performs heuristic search through space of decision trees • It stops at smallest acceptable tree. Why",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk2",
+        "chunk": "Occam’s razor: prefer the simplest hypothesis that fits the data Preference bias: Ockham’s Razor • Principle stated by William of Ockham (1285-1347) – “non sunt mul0plicanda en0a praeter necessitatem” – enIIes are not to be mulIplied beyond necessity – AKA Occam’s Razor, Law of Economy, or Law of Parsimony • Therefore, the smallest decision tree that correctly classiﬁes all of the training examples is best • Finding the provably smallest decision tree is NP-hard • ...So instead of construcIng the absolute smallest tree consistent with the training examples, construct one that is preHy small Idea: The simplest consistent explanaIon is the best Basic Algorithm for Top-Down InducIon of Decision Trees [ID3, C4.5 by Quinlan] node = root of decision tree Main loop: 1. A ß the “best” decision aHribute for the next node. 2. Assign A as decision aHribute for node. 3. For each value of A, create a new descendant of node. 4. Sort training examples to leaf nodes. 5. If training examples are perfectly classiﬁed, stop. Else, recurse over new leaf nodes. How do we choose which aHribute is best",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk3",
+        "chunk": "Choosing the Best AHribute Key problem: choosing which aHribute to split a given set of examples • Some possibiliIes are: – Random: Select any aHribute at random – Least-Values: Choose the aHribute with the smallest number of possible values – Most-Values: Choose the aHribute with the largest number of possible values – Max-Gain: Choose the aHribute that has the largest expected informa0on gain • i.e., aHribute that results in smallest expected size of subtrees rooted at its children • The ID3 algorithm uses the Max-Gain method of selecIng the best aHribute Entropy Entropy is like a measure of impurity… Impurity/Entropy (informal) – Measures the level of impurity in a group of examples InformaIon Gain Impurity Very impure group Less impure Minimum impurity Entropy Intro AI Decision Trees 13 Information Gain Intro AI Decision Trees 15 Intro AI Decision Trees 16 Intro AI Decision Trees 17 ID3: information gain (Classification Tree) Decision Trees C4.5: gain ratio (Classification Tree) CART: Gini index (",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk4",
+        "chunk": ") Note: classification and regression trees (CART) Decision Tree – Decision Boundary • Decision trees divide the feature space into axis- parallel (hyper-)rectangles • Each rectangular region is labeled with one label – or a probability distribuIon over labels Decision boundary Expressiveness • Decision trees can represent any boolean funcIon of the input aHributes • In the worst case, the tree will require exponenIally many nodes Truth table row à path to leaf Overfitting Consider a hypothesis h and its • Error rate over training data: • True error rate over all data: Overfitting Consider a hypothesis h and its • Error rate over training data: • True error rate over all data: We say h overfits the training data if Amount of overfitting = Split data into training and validation set Create tree that classiﬁes training set correctly Non-Boolean Features • Features with multiple discrete values – Multi-way splits – Test for one value versus the rest – Group values into disjoint sets • Real-valued features – Use thresholds • Regression – Splits based on mean squared error metric Decision Tree Learning, Formal Guarantees Labeled Examples Supervised Learning or Function Approximation Learning Algorithm Expert / Oracle Data Source Alg.outputs Distribution D on X c* : X",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk5",
+        "chunk": "Y (x1,c*(x1)),…, (xm,c*(xm)) h : X",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk6",
+        "chunk": "Y x1 > 5 x6 > 2 +1 -1 +1 Labeled Examples Learning Algorithm Expert/Oracle Data Source Alg.outputs c* : X",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk7",
+        "chunk": "Y (x1,c*(x1)),…, (xm,c*(xm)) • Algo sees training sample S: (x1,c*(x1)),…, (xm,c*(xm)), xi i.i.d. from D Distribution D on X err(h)=Prx 2 D(h(x) ≠ c*(x)) • Does optimization over S, finds hypothesis h (e.g., a decision tree). • Goal: h has small error over D. Supervised Learning or Function Approximation Two Core Aspects of Machine Learning Algorithm Design. How to optimize",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk8",
+        "chunk": "Automatically generate rules that do well on observed data. Confidence Bounds, Generalization Confidence for rule effectiveness on future data. Computation • Very well understood: Occam’s bound, VC theory, etc. (Labeled) Data • Decision trees: if we were able to find a small decision tree that explains data well, then good generalization guarantees. • NP-hard [Hyafil-Rivest’76] Top Down Decision Trees Algorithms • Decision trees: if we were able to find a small decision tree consistent with the data, then good generalization guarantees. • NP-hard [Hyafil-Rivest’76] • Very nice practical heuristics; top down algorithms, e.g, ID3 • Natural greedy approaches where we grow the tree from the root to the leaves by repeatedly replacing an existing leaf with an internal node. • Key point: splitting criterion. • ID3: split the leaf that decreases the entropy the most. • Why not split according to error rate --- this is what we care about after all",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk9",
+        "chunk": "• There are examples where we can get stuck in local minima",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk10",
+        "chunk": "• Natural greedy approaches where we grow the tree from the root to the leaves by repeatedly replacing an existing leaf with an internal node. • Key point: splitting criterion. • ID3: split the leaf that decreases the entropy the most. • Why not split according to error rate --- this is what we care about after all",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk11",
+        "chunk": "• There are examples where you can get stuck",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk12",
+        "chunk": "Top Down Decision Trees Algorithms • [Kearns-Mansour’96]: if measure of progress is entropy, we can always guarantees success under some formal relationships between the class of splits and the target (the class of splits can weakly approximate the target function). • Provides a way to think about the effectiveness of various top down algos. Two Core Aspects of Machine Learning Algorithm Design. How to optimize",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk13",
+        "chunk": "Automatically generate rules that do well on observed data. Confidence Bounds, Generalization Confidence for rule effectiveness on future data. Computation (Labeled) Data Homework 1 • Which feature will be at the root node of the decision tree trained for the following data",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk14",
+        "chunk": "In other words which attribute makes a person most attractive",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk15",
+        "chunk": "Height Hair Eyes Attractive",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk16",
+        "chunk": "small blonde brown No tall dark brown No tall blonde blue Yes tall dark Blue No small dark Blue No tall red Blue Yes tall blonde brown No small blonde blue Yes",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk17",
+        "chunk": "1 实训软件配置说明 2 目录 第一章基本环境软件下载与安装............................................................................................................. 2 一、下载和安装Orbbec 相机驱动.................................................................................................... 3 二、Visual Studio 2019 下载安装...................................................................................................... 4 1、下载......................................................................................................................................... 4 2、安装.......................................................................................................................................... 4 3、安装完成................................................................................................................................ 6 4、启动Visual Studio 2019 ....................................................................................................... 6 三、Cmake 下载安装.......................................................................................................................... 6 1、下载......................................................................................................................................... 6 2、运行.......................................................................................................................................... 7 第二章3D 传感器工具及SDK 调(OpenNI2) ...........................................................................................8 一、Orbbec Viewer 看图工具介绍..................................................................................................... 8 1、Orbbec Viewer 看图工具...................................................................................................... 8 2、Orbbec Viewer 功能...............................................................................................................8 二、OpenNI2 SDK 介绍.....................................................................................................................9 1、下载OpenNI2 SDK V2.3.0.81 ..............................................................................................9 2、OpenNI2 SDK 使用流程...................................................................................................... 9 3、示例清单.............................................................................................................................. 13 三、Astra SDK 介绍......................................................................................................................... 13 1、下载Astra SDK 2.1.3 ...........................................................................................................13 2、Astra SDK 的使用流程...................................................................................................... 13 3、示例清单.............................................................................................................................. 17 第三章3D 传感器工具及SDK 调试(UVC) ........................................................................................... 18 一、Orbbec Viewer 看图工具介绍................................................................................................... 18 1、下载OrbbecViewer 看图工具.............................................................................................18 2、Orbbec Viewer 功能.............................................................................................................18 3.设备信息................................................................................................................................. 19 二、Orbbec SDK 介绍...................................................................................................................... 19 1、下载Orbbec SDK 工程....................................................................................................... 19 2、设备连接.............................................................................................................................. 19 3、环境配置.............................................................................................................................. 20 4、Orbbec SDK 编译与使用.................................................................................................... 21 3 4 第一章基本环境软件下载与安装 一、下载和安装Orbbec 相机驱动 https://dl.orbbec3d.com/dist/drivers/win32/astra-win32-driver-4.3.0.22.zip OpenNI2驱动安装及设备诊断指南 https://kdocs.cn/l/cuAUDUUJO67E 5 二、Visual Studio 2019 下载安装（务必VS2019） 1、下载 https://visualstudio.microsoft.com/zh-hans/downloads/ 2、安装 下载Visual Studio 2019 安装程序后，运行安装程序",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk18",
+        "chunk": "6 7 三、Cmake 下载安装 1、下载 https://cmake.org/download/ 2 、运行 下载cmake-3.20.2-windows-x86_64.zip ，解压并运行cmake-gui.exe 文件",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk19",
+        "chunk": "8 第二章3D 传感器工具及SDK 调(OpenNI2) 一、Orbbec Viewer 看图工具介绍 1 、Orbbec Viewer 看图工具 OrbbecViewer+for+OpenNI2_v1.1.13_20220722_windows_x64 https://kdocs.cn/l/cfj9GZNl2b7u 2、Orbbec Viewer 功能 OrbbecViewer for OpenNI2 使用手册 https://kdocs.cn/l/cazhWWlUDI5z 9 二、OpenNI2 SDK 介绍 1、下载OpenNI2 SDK V2.3.0.81 https://dl.orbbec3d.com/dist/openni2/v2.3.0.86-beta6/Orbbec_OpenNI_v2.3.0.86- beta6_windows_release.zip 2、OpenNI2 SDK 使用流程 1）首先需要安装cmake 和vs2019",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk20",
+        "chunk": "（参考上文） 使用cmake 进行编译生成示例工程文件： 2）在SDK 提供的Samples 目录下创建build 目录 3）使用cmake 生成vs2019 x64 项目：打开cmake ，设置源代码路径和生成build 路径",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk21",
+        "chunk": "选择visual studio 16 2019，x64，如下图 10 4）点击“Configure”配置Visual Studio 16 2019，再点击Finish 完成配置",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk22",
+        "chunk": "5）编译完成后点击generate，完成后如下图： 11 6）进入编译后的build 文件夹中，用vs2019 打开Samples.sln，如下图： 12 7）点击“Samples.sln”打开工程，点击“ALL_BUILD”编译所有Samples，点击“INSTALL”安装 依赖库： 8）运行执行文件打开build\\bin\\Release 文件夹，点击“exe“文件，例如执行 SimpleViewer.exe 可以显示如图运行的结果",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk23",
+        "chunk": "13 三、Astra SDK 介绍 1、下载Astra SDK 2.1.3 https://dl.orbbec3d.com/dist/astra/v2.1.3/AstraSDK-v2.1.3-94bca0f52e-2021060 8T034051Z-vs2015-win64.zip 2、Astra SDK 的使用流程 1）首先需要安装cmake 和vs2019",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk24",
+        "chunk": "（参考上文） 使用cmake 进行编译生成示例工程文件： 2）在SDK 提供的Samples 目录下创建build 目录 14 3）使用cmake 生成vs2019 x64 项目：打开cmake，设置源代码路径和生成build 路径",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk25",
+        "chunk": "配置samples CMakeLists.txt 所在目录，配置编译build 目录，点击 configure，弹出配置窗口，选择visual studio 16 2019，x64，如下图 15 4）点击“Configure”配置Visual Studio 16 2019，再点击Finish 完成配置",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk26",
+        "chunk": "5）编译完成后点击generate，完成后如下图： 6）进入编译后的build 文件夹中，用vs2019 打开astra-samples.sln，如下图： 16 7）选择想要编译的项目，选中后点击鼠标右键，选择生成项目，如下图： 8）注意：执行应用程序时提示缺少库文件，可在sdk 自带的bin 文件夹中找到 并复制粘贴到应用程序的同级目录下，把“ 自带bin 文件夹”下除exe 外的文件/ 文件下都复制到build/bin/Release 路径中",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk27",
+        "chunk": "17 9）运行执行文件进入build/bin/Release 文件夹下，选择对应的exe 文件，双击 执行，例如运行SimpleBodyViewer-SFML.exe 文件如下图： 3、示例清单 https://dl.orbbec3d.com/dist/astra/v2.1.3/Doc_SDK_AstraSDK_v2.1.3.zip 18 第三章 3D 传感器工具及SDK 调试(UVC) 一、Orbbec Viewer 看图工具介绍 1、下载OrbbecViewer 看图工具 OrbbecViewer是一个基于Orbbec SDK的实用工具 https://gitee.com/orbbecdeveloper/OrbbecSDK#orbbecviewer 2、Orbbec Viewer 功能 OrbbecViewer 工具手册 https://gitee.com/orbbecdeveloper/OrbbecSDK/blob/main/doc/OrbbecViewer/Chinese/Orbbe cViewer.md OrbbecViewer 工具的使用 1 软件主界面 19 2 数据流 OrbbecViewer 允许用户选择和配置深度、红外和彩色数据流，以及在工具中配置参数",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk28",
+        "chunk": "3.设备信息 OrbbecViewer 工具包含简单的设备信息，如固件版本、产品识别码、相机参数、温度等",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk29",
+        "chunk": "二、Orbbec SDK 介绍 1 、下载Orbbec SDK 工程 下载OrbbecSDK C C++_v1.7.5***win_x64_release https://github.com/Orbbec/OrbbecSDK.git 2、设备连接 将设备连接到主机 导航至“控制面板”->“设备管理器” 浏览查找Orbbec 设备，如下图所示，设备连接成功 20 3、环境配置 配置OpenCV（Examples 依赖） 数据渲染依赖第三方库OpenCV 开源视觉库(https://opencv.org/releases/)， 这里以OpenCV 4.5.4 为例演示安装配置 1）执行OpenCV 安装文件，选择opencv 要安装的目录，点击extract 执行安装; 2）在系统的环境变量中添加OpenCV 的路径，变量名输入OpenCV_DIR,注意字母的大小写， 变量值为OpenCV 安装目录的build 文件夹路径",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk30",
+        "chunk": "21 4 、Orbbec SDK 编译与使用 生成你的第一个应用程序 软件依赖：VisualStudio2019 、cmake 3.10 及以上版本 1）下载/获取我们的SDK 软件包，存放位置假设为D 盘根目录：“D:\\Test Project”，目录结 构如下所示： 2）打开Cmake ，将“Examples”文件夹设置为代码路径，“Examples”下的“build”文件夹设置为 生成二进制文件的路径，如Examples 下无build，需要新建该文件夹",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk31",
+        "chunk": "3）点击“Configure”并选择对应的Visual Studio 版本和平台版本后，点击“Finish”，如下所示： 22 22 4）点击“Generate ”，如下所示： 5）可以通过如下方式打开Sample 工程，通过cmake，点击“Open Project”按钮，打开Visual Studio 工程",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk32",
+        "chunk": "6）打开Examples 工程界面如下所示： 23 7) 选择你想要运行的工程，右键点击并将其“设置为启动项目”,在运行选项处选择release 和 64 位版本",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk33",
+        "chunk": "8）将设备连接到主机 9）将bin 目录(Example\\bin)下的dll 文件拷贝至执行文件处(build\\bin\\Release) 24 10）运行工程，结果如下所示，至此第一个Eaxmple 就运行成功了",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk34",
+        "chunk": "课程关键知识点总结 Lecture 1: Introduction 1. 计算机视觉概述：数据驱动的视觉任务解决方法，核心问题（如图像分类、检测、分 割等）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk35",
+        "chunk": "2. 课程概述：深度学习在计算机视觉中的应用框架，重点模块（CNN、RNN、 Transformer 等）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk36",
+        "chunk": "Lecture 2: Image Classification with Linear Classifiers 数据驱动方法：从训练数据中学习模型参数，而非手工设计特征",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk37",
+        "chunk": "K - 最近邻（KNN）算法：基于样本相似度的分类方法，距离度量（如 L2 距离）与超 参数调优",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk38",
+        "chunk": "线性分类器： 1. 代数视角：权重矩阵与输入的线性变换（f(x_i, W) = Wx_i + b）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk39",
+        "chunk": "2. 几何视角：权重向量定义分类超平面，样本到平面的距离决定类别",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk40",
+        "chunk": "Softmax 损失函数：将线性输出转换为概率分布，公式为L_i = - \\log\\left(\\frac{e^{f_{y_i}}}{\\sum_j e^{f_j}}\\right)",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk41",
+        "chunk": "MLE 与 MAP 估计：最大似然估计（MLE）与最大后验概率估计（MAP）的原理及应 用场景",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk42",
+        "chunk": "维度灾难：高维空间中数据稀疏性对分类性能的影响，如 KNN 在高维下的局限性",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk43",
+        "chunk": "Lecture 3: Regularization and Optimization 正则化方法： 1. 防止过拟合的核心技术：Dropout（随机失活神经元）、早停法（监控验证集 提前终止训练）、数据增强（旋转、缩放等扩充样本）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk44",
+        "chunk": "梯度下降算法： 2. 批量梯度下降（BGD）：基于全量数据计算梯度，收敛稳定但计算量大",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk45",
+        "chunk": "3. 随机梯度下降（SGD）：基于单样本更新，适合大数据场景但收敛波动大",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk46",
+        "chunk": "4. 小批量梯度下降（Mini-Batch SGD）：平衡计算效率与收敛稳定性",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk47",
+        "chunk": "优化器与学习率调度： 5. 动量（Momentum）、AdaGrad、Adam：自适应调整学习率的策略",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk48",
+        "chunk": "6. 学习率衰减：过大导致不收敛，过小导致训练停滞，常见衰减方式（如指数衰 减、余弦衰减）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk49",
+        "chunk": "K-means 聚类：无监督学习中的聚类算法，基于距离划分数据簇，初始化与迭代优化 流程",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk50",
+        "chunk": "Lecture 4: Neural Networks and Backpropagation 神经元结构与前向传播： 1. 多层感知机（MLP）的基本单元，输入输出线性变换与激活函数的组合",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk51",
+        "chunk": "2. 线性激活函数的局限性：无法拟合非线性关系",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk52",
+        "chunk": "反向传播算法： 3. 基于链式法则的梯度计算，权重更新公式（W \\leftarrow W - \\alpha \\nabla W）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk53",
+        "chunk": "4. 计算图视角：通过反向传播高效求解各层梯度",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk54",
+        "chunk": "激活函数： 5. ReLU（修正线性单元）：解决梯度消失问题，公式为f(x) = \\max(0, x)",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk55",
+        "chunk": "6. Sigmoid：历史常用激活函数，但存在梯度饱和问题",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk56",
+        "chunk": "权重初始化： 7. 全零初始化导致神经元同质化，常用方法（如 Xavier 初始化、Kaiming 初始 化）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk57",
+        "chunk": "Lecture 5: Image Classification with CNNs 卷积层计算： 1. 输入尺寸、卷积核大小、步长（Stride）、填充（Padding）对输出尺寸的影响 公式： {\\rm 输出尺寸} = \\left\\lfloor \\frac{W - K + 2P}{S} \\right\\rfloor + 1",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk58",
+        "chunk": "2. 卷积操作的物理意义：提取局部特征（如边缘、纹理）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk59",
+        "chunk": "池化层： 3. 最大池化：保留局部区域最大值，实现平移不变性",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk60",
+        "chunk": "4. 平均池化：降低计算量，对噪声更鲁棒",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk61",
+        "chunk": "激活层：如 ReLU，为网络引入非线性能力",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk62",
+        "chunk": "数据增强：预处理阶段通过旋转、缩放、翻转等操作扩充训练数据，提升模型泛化能 力",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk63",
+        "chunk": "Lecture 6: CNN Architectures Batch Normalization（批归一化）： 1. 固定各层输入分布，加速训练并缓解梯度消失问题",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk64",
+        "chunk": "经典架构： 2. VGGNet：通过小卷积核（3×3）堆叠减少参数数量，加深网络层次",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk65",
+        "chunk": "3. ResNet：残差块设计（y = x + F(x)），缓解深层网络梯度消失问题",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk66",
+        "chunk": "4. AlexNet、GoogLeNet：早期 CNN 里程碑模型的核心创新（如 ReLU、 Inception 模块）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk67",
+        "chunk": "模型深度与性能的关系：过深网络可能导致优化困难（如梯度消失），需结合残差连 接等技术改进",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk34",
+        "chunk": "Lecture 7: Recurrent Neural Networks (RNN) RNN 结构： 1. 处理序列依赖问题（如文本、视频），隐藏状态传递历史信息",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk35",
+        "chunk": "LSTM 与 GRU： 2. LSTM 门控机制：遗忘门、输入门、输出门，解决长序列梯度消失问题",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk36",
+        "chunk": "3. GRU：LSTM 的简化版本，合并遗忘门与输入门为更新门",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk37",
+        "chunk": "应用场景： 4. 语言建模、图像字幕生成、序列到序列任务（如机器翻译）、视频对象追踪",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk38",
+        "chunk": "Lecture 8: Attention and Transformers Self-Attention 机制： 1. 通过计算输入序列中各元素的关联权重（Query-Key-Value），捕捉长距离依 赖关系",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk39",
+        "chunk": "2. 公式：{\\rm Attention}(Q, K, V) = {\\rm softmax}\\left(\\frac{QK^T}{\\sqrt{d_k}}\\right)V",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk40",
+        "chunk": "Transformer 架构： 3. 核心组件：多头注意力（Multi-Head Attention）、前馈神经网络（FFN）、位 置编码",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk41",
+        "chunk": "4. 优势：并行计算能力强，解决 RNN 长序列处理效率低的问题",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk42",
+        "chunk": "视觉应用扩展： 5. ViT（Vision Transformer）：将图像分块后直接应用 Transformer，打破传统 CNN 架构限制",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk43",
+        "chunk": "Lecture 9: Object Detection, Image Segmentation 目标检测： 1. 单阶段检测器（如 YOLO、SSD）：端到端直接预测边界框与类别",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk44",
+        "chunk": "2. 两阶段检测器（如 R-CNN、Fast R-CNN、Faster R-CNN）：先生成候选区域 再分类",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk45",
+        "chunk": "图像分割： 3. 语义分割（像素级分类）、实例分割（区分同一类别的不同实例）、全景分割 （兼顾语义与实例）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk46",
+        "chunk": "特征可视化与理解： 4. 可视化卷积层激活值，解释模型决策依据",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk47",
+        "chunk": "Lecture 10: Video Understanding 1. 视频分类：识别视频中的动作或事件，结合时间维度特征",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk48",
+        "chunk": "2. 3D CNNs：通过 3D 卷积核同时提取空间与时间特征（如 C3D 模型）",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk49",
+        "chunk": "3. 两流网络：分离空间流（处理单帧图像）与时间流（处理光流信息），提升动作识别 性能",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk50",
+        "chunk": "4. 多模态视频理解：融合视觉、音频等多模态信息进行联合建模",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk51",
+        "chunk": "Lecture 13: Generative Models 1 1. 变分自编码器（VAE）： 5. 基于概率图模型，通过编码器将数据映射到隐空间，解码器从隐空间重构数 据，引入 KL 散度约束隐变量分布",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk52",
+        "chunk": "1. 生成对抗网络（GAN）： 6. 生成器与判别器的对抗训练框架，生成器学习拟合真实数据分布，判别器区分 真实与生成样本",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk53",
+        "chunk": "1. 自回归模型： 7. 基于序列依赖关系，通过历史输出预测下一时刻值（如 PixelRNN、 PixelCNN），用于图像生成",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk68",
+        "chunk": "《算法竞赛 - 算法基础篇》课程说明​ 1. 课程介绍​ • 本课程总共包含 ​ 个章节，讲解的是在算法竞赛中涉及到的各种基础的算法",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk69",
+        "chunk": "虽然只有 ​ 个章 节，但是每个章节的内容是很丰富的，因此大家的学习任务还是比较重的",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk70",
+        "chunk": "6 6 • 针对每一个算法模块，讲解方式为： a. 根据模板题目详细讲解算法原理，并总结出相应的模板",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk71",
+        "chunk": "​ 整个课程学完之后，将会对各种基础算法有一个清晰以及深刻的认知",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk72",
+        "chunk": "2. 课程要求与建议​ 1. 具备一定的编程基础",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk73",
+        "chunk": "• 本课程默认各位同学已经学过《C++编程课》以及《数据结构、算法与 STL》，已经熟悉：​ ◦ C++ 的基本语法",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk74",
+        "chunk": "​ • 如果对上述所说的内容一概不知，或者一知半解的话，后续课程将会寸步难行",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk75",
+        "chunk": "• 如果上述课程没有学过，但是在别的地方已经学过C++和数据结构了，没有什么语法障碍",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk76",
+        "chunk": "建议是 把上述课程里面的题做一做，做完之后再来听这门课也不迟",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk77",
+        "chunk": "2. 不要用死记硬背的方式记忆模板，在理解的基础上去记忆",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk78",
+        "chunk": "• 算法模板指的是常见的算法被实现后的代码",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk79",
+        "chunk": "这个代码一般比较权威，基本没有 bug，能拿来直接 用，被称之为模板",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk80",
+        "chunk": "比如： ◦ 在数据结构阶段学习到的快速排序",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk81",
+        "chunk": "把核心代码拿出来之后，那一小段就是快排的算法模板",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk68",
+        "chunk": "◦ 把实现链表的代码拿出来，就是链表的模板",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk69",
+        "chunk": "在解决裸问题的，也就是模板类型的题目时，单单背下这个板子就 能解决问题",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk70",
+        "chunk": "此时，一些同学就会陷入一个误区：是不是只要把模板代码背下来，就无敌了？ • 如果各位同学仅仅使用死记硬背的方式去记忆模板，你一定会吃大亏： a. 一旦遇到的题目需要在模板的基础上做修改时，就会束手无策",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk71",
+        "chunk": "b. 一旦这个问题比较难，你可能压根都想不到用哪个算法去解决问题，拿着一堆模板也无从下 手",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk72",
+        "chunk": "背是要背的，但是一定要在理解模板背后的原理的基础上， 再去记忆",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk73",
+        "chunk": "我们的课上会讲很多板块题目，也会总结一些算法模板",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk74",
+        "chunk": "当你把核心思想掌握之后，模板其实就是顺手拈来的事情",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk75",
+        "chunk": "3. 把纸和笔拿出来，想不清楚的东西，一定要自己动手去模拟一遍",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk76",
+        "chunk": "• 学习算法的过程中，难免会有一些较难或者较为抽象的内容，一时半会想不清楚",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk77",
+        "chunk": "这个时候不要只 是简简单单的再听我讲一遍，把纸和笔拿出来，自己推导一下算法原理或者模拟一遍整个算法流 程，会有更加深刻的认知",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk78",
+        "chunk": "• 学算法也是需要有演草纸的！ 3. 课程中题目出处​ 1. 洛谷：https://www.luogu.com.cn/​ 2. 牛客竞赛：https://ac.nowcoder.com/​ 3. 奥赛一本通：https://ybt.ssoier.cn/index.php​",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk82",
+        "chunk": "Machine Learning Today: • Decision tree • Overfitting Function Approximation: Problem Setting: • Set of possible instances X • Unknown target function f : XàY • Set of function hypotheses H={ h | h : XàY } Input: • Training examples {<x(i),y(i)>} of unknown target function f Output: • Hypothesis h ∈ H that best approximates target function f Stages of (Batch) Machine Learning Given: labeled training data • Assumes each with Train the model: model ß classiﬁer.train(X, Y ) Apply the model to new data: • Given: new unlabeled instance ypredicIon ß model.predict(x) model learner X, Y x ypredicIon X, Y = {hxi, yii}n i=1 xi ⇠D(X) yi = ftarget(xi) x ⇠D(X) Function Approximation: Decision Tree Learning Problem Setting: • Set of possible instances X – each instance x in X is a feature vector x = < x1, x2 … xn> • Unknown target function f : XàY – Y is discrete valued • Set of function hypotheses H={ h | h : XàY } – each hypothesis h is a decision tree Input: • Training examples {<x(i),y(i)>} of unknown target function f Output: • Hypothesis h ∈ H that best approximates target function f Sample Dataset • Columns denote features Xi • Rows denote labeled instances • Class label denotes whether a tennis game was played hxi, yii hxi, yii Decision Tree • A possible decision tree for the data: • Each internal node: test one aHribute Xi • Each branch from a node: selects one value for Xi • Each leaf node: predict Y (or ) p(Y | x 2 leaf) Decision Tree • If features are conInuous, internal nodes can test the value of a feature against a threshold Problem Setting: • Set of possible instances X – each instance x in X is a feature vector – e.g., <Humidity=low, Wind=weak, Outlook=rain, Temp=hot> • Unknown target function f : XY – Y is discrete valued • Set of function hypotheses H={ h | h : XY } – each hypothesis h is a decision tree – trees sorts x to leaf, which assigns y Decision Tree Learning Function approximation as Search for the best hypothesis • ID3 performs heuristic search through space of decision trees Which Tree Should We Output",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk83",
+        "chunk": "• ID3 performs heuristic search through space of decision trees • It stops at smallest acceptable tree. Why",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk84",
+        "chunk": "Occam’s razor: prefer the simplest hypothesis that fits the data Preference bias: Ockham’s Razor • Principle stated by William of Ockham (1285-1347) – “non sunt mul0plicanda en0a praeter necessitatem” – enIIes are not to be mulIplied beyond necessity – AKA Occam’s Razor, Law of Economy, or Law of Parsimony • Therefore, the smallest decision tree that correctly classiﬁes all of the training examples is best • Finding the provably smallest decision tree is NP-hard • ...So instead of construcIng the absolute smallest tree consistent with the training examples, construct one that is preHy small Idea: The simplest consistent explanaIon is the best Basic Algorithm for Top-Down InducIon of Decision Trees [ID3, C4.5 by Quinlan] node = root of decision tree Main loop: 1. A ß the “best” decision aHribute for the next node. 2. Assign A as decision aHribute for node. 3. For each value of A, create a new descendant of node. 4. Sort training examples to leaf nodes. 5. If training examples are perfectly classiﬁed, stop. Else, recurse over new leaf nodes. How do we choose which aHribute is best",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk82",
+        "chunk": "Choosing the Best AHribute Key problem: choosing which aHribute to split a given set of examples • Some possibiliIes are: – Random: Select any aHribute at random – Least-Values: Choose the aHribute with the smallest number of possible values – Most-Values: Choose the aHribute with the largest number of possible values – Max-Gain: Choose the aHribute that has the largest expected informa0on gain • i.e., aHribute that results in smallest expected size of subtrees rooted at its children • The ID3 algorithm uses the Max-Gain method of selecIng the best aHribute Entropy Entropy is like a measure of impurity… Impurity/Entropy (informal) – Measures the level of impurity in a group of examples InformaIon Gain Impurity Very impure group Less impure Minimum impurity Entropy Intro AI Decision Trees 13 Information Gain Intro AI Decision Trees 15 Intro AI Decision Trees 16 Intro AI Decision Trees 17 ID3: information gain (Classification Tree) Decision Trees C4.5: gain ratio (Classification Tree) CART: Gini index (",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk83",
+        "chunk": ") Note: classification and regression trees (CART) Decision Tree – Decision Boundary • Decision trees divide the feature space into axis- parallel (hyper-)rectangles • Each rectangular region is labeled with one label – or a probability distribuIon over labels Decision boundary Expressiveness • Decision trees can represent any boolean funcIon of the input aHributes • In the worst case, the tree will require exponenIally many nodes Truth table row à path to leaf Overfitting Consider a hypothesis h and its • Error rate over training data: • True error rate over all data: Overfitting Consider a hypothesis h and its • Error rate over training data: • True error rate over all data: We say h overfits the training data if Amount of overfitting = Split data into training and validation set Create tree that classiﬁes training set correctly Non-Boolean Features • Features with multiple discrete values – Multi-way splits – Test for one value versus the rest – Group values into disjoint sets • Real-valued features – Use thresholds • Regression – Splits based on mean squared error metric Decision Tree Learning, Formal Guarantees Labeled Examples Supervised Learning or Function Approximation Learning Algorithm Expert / Oracle Data Source Alg.outputs Distribution D on X c* : X",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk84",
+        "chunk": "Y (x1,c*(x1)),…, (xm,c*(xm)) h : X",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk85",
+        "chunk": "Y x1 > 5 x6 > 2 +1 -1 +1 Labeled Examples Learning Algorithm Expert/Oracle Data Source Alg.outputs c* : X",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk86",
+        "chunk": "Y (x1,c*(x1)),…, (xm,c*(xm)) • Algo sees training sample S: (x1,c*(x1)),…, (xm,c*(xm)), xi i.i.d. from D Distribution D on X err(h)=Prx 2 D(h(x) ≠ c*(x)) • Does optimization over S, finds hypothesis h (e.g., a decision tree). • Goal: h has small error over D. Supervised Learning or Function Approximation Two Core Aspects of Machine Learning Algorithm Design. How to optimize",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk87",
+        "chunk": "Automatically generate rules that do well on observed data. Confidence Bounds, Generalization Confidence for rule effectiveness on future data. Computation • Very well understood: Occam’s bound, VC theory, etc. (Labeled) Data • Decision trees: if we were able to find a small decision tree that explains data well, then good generalization guarantees. • NP-hard [Hyafil-Rivest’76] Top Down Decision Trees Algorithms • Decision trees: if we were able to find a small decision tree consistent with the data, then good generalization guarantees. • NP-hard [Hyafil-Rivest’76] • Very nice practical heuristics; top down algorithms, e.g, ID3 • Natural greedy approaches where we grow the tree from the root to the leaves by repeatedly replacing an existing leaf with an internal node. • Key point: splitting criterion. • ID3: split the leaf that decreases the entropy the most. • Why not split according to error rate --- this is what we care about after all",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk88",
+        "chunk": "• There are examples where we can get stuck in local minima",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk89",
+        "chunk": "• Natural greedy approaches where we grow the tree from the root to the leaves by repeatedly replacing an existing leaf with an internal node. • Key point: splitting criterion. • ID3: split the leaf that decreases the entropy the most. • Why not split according to error rate --- this is what we care about after all",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk90",
+        "chunk": "• There are examples where you can get stuck",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk91",
+        "chunk": "Top Down Decision Trees Algorithms • [Kearns-Mansour’96]: if measure of progress is entropy, we can always guarantees success under some formal relationships between the class of splits and the target (the class of splits can weakly approximate the target function). • Provides a way to think about the effectiveness of various top down algos. Two Core Aspects of Machine Learning Algorithm Design. How to optimize",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk92",
+        "chunk": "Automatically generate rules that do well on observed data. Confidence Bounds, Generalization Confidence for rule effectiveness on future data. Computation (Labeled) Data Homework 1 • Which feature will be at the root node of the decision tree trained for the following data",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk93",
+        "chunk": "In other words which attribute makes a person most attractive",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk94",
+        "chunk": "Height Hair Eyes Attractive",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk95",
+        "chunk": "small blonde brown No tall dark brown No tall blonde blue Yes tall dark Blue No small dark Blue No tall red Blue Yes tall blonde brown No small blonde blue Yes",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk96",
+        "chunk": "Machine Learning Today: • Decision tree • Overfitting Function Approximation: Problem Setting: • Set of possible instances X • Unknown target function f : XàY • Set of function hypotheses H={ h | h : XàY } Input: • Training examples {<x(i),y(i)>} of unknown target function f Output: • Hypothesis h ∈ H that best approximates target function f Stages of (Batch) Machine Learning Given: labeled training data • Assumes each with Train the model: model ß classiﬁer.train(X, Y ) Apply the model to new data: • Given: new unlabeled instance ypredicIon ß model.predict(x) model learner X, Y x ypredicIon X, Y = {hxi, yii}n i=1 xi ⇠D(X) yi = ftarget(xi) x ⇠D(X) Function Approximation: Decision Tree Learning Problem Setting: • Set of possible instances X – each instance x in X is a feature vector x = < x1, x2 … xn> • Unknown target function f : XàY – Y is discrete valued • Set of function hypotheses H={ h | h : XàY } – each hypothesis h is a decision tree Input: • Training examples {<x(i),y(i)>} of unknown target function f Output: • Hypothesis h ∈ H that best approximates target function f Sample Dataset • Columns denote features Xi • Rows denote labeled instances • Class label denotes whether a tennis game was played hxi, yii hxi, yii Decision Tree • A possible decision tree for the data: • Each internal node: test one aHribute Xi • Each branch from a node: selects one value for Xi • Each leaf node: predict Y (or ) p(Y | x 2 leaf) Decision Tree • If features are conInuous, internal nodes can test the value of a feature against a threshold Problem Setting: • Set of possible instances X – each instance x in X is a feature vector – e.g., <Humidity=low, Wind=weak, Outlook=rain, Temp=hot> • Unknown target function f : XY – Y is discrete valued • Set of function hypotheses H={ h | h : XY } – each hypothesis h is a decision tree – trees sorts x to leaf, which assigns y Decision Tree Learning Function approximation as Search for the best hypothesis • ID3 performs heuristic search through space of decision trees Which Tree Should We Output",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk97",
+        "chunk": "• ID3 performs heuristic search through space of decision trees • It stops at smallest acceptable tree. Why",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk98",
+        "chunk": "Occam’s razor: prefer the simplest hypothesis that fits the data Preference bias: Ockham’s Razor • Principle stated by William of Ockham (1285-1347) – “non sunt mul0plicanda en0a praeter necessitatem” – enIIes are not to be mulIplied beyond necessity – AKA Occam’s Razor, Law of Economy, or Law of Parsimony • Therefore, the smallest decision tree that correctly classiﬁes all of the training examples is best • Finding the provably smallest decision tree is NP-hard • ...So instead of construcIng the absolute smallest tree consistent with the training examples, construct one that is preHy small Idea: The simplest consistent explanaIon is the best Basic Algorithm for Top-Down InducIon of Decision Trees [ID3, C4.5 by Quinlan] node = root of decision tree Main loop: 1. A ß the “best” decision aHribute for the next node. 2. Assign A as decision aHribute for node. 3. For each value of A, create a new descendant of node. 4. Sort training examples to leaf nodes. 5. If training examples are perfectly classiﬁed, stop. Else, recurse over new leaf nodes. How do we choose which aHribute is best",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk99",
+        "chunk": "Choosing the Best AHribute Key problem: choosing which aHribute to split a given set of examples • Some possibiliIes are: – Random: Select any aHribute at random – Least-Values: Choose the aHribute with the smallest number of possible values – Most-Values: Choose the aHribute with the largest number of possible values – Max-Gain: Choose the aHribute that has the largest expected informa0on gain • i.e., aHribute that results in smallest expected size of subtrees rooted at its children • The ID3 algorithm uses the Max-Gain method of selecIng the best aHribute Entropy Entropy is like a measure of impurity… Impurity/Entropy (informal) – Measures the level of impurity in a group of examples InformaIon Gain Impurity Very impure group Less impure Minimum impurity Entropy Intro AI Decision Trees 13 Information Gain Intro AI Decision Trees 15 Intro AI Decision Trees 16 Intro AI Decision Trees 17 ID3: information gain (Classification Tree) Decision Trees C4.5: gain ratio (Classification Tree) CART: Gini index (",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk100",
+        "chunk": ") Note: classification and regression trees (CART) Decision Tree – Decision Boundary • Decision trees divide the feature space into axis- parallel (hyper-)rectangles • Each rectangular region is labeled with one label – or a probability distribuIon over labels Decision boundary Expressiveness • Decision trees can represent any boolean funcIon of the input aHributes • In the worst case, the tree will require exponenIally many nodes Truth table row à path to leaf Overfitting Consider a hypothesis h and its • Error rate over training data: • True error rate over all data: Overfitting Consider a hypothesis h and its • Error rate over training data: • True error rate over all data: We say h overfits the training data if Amount of overfitting = Split data into training and validation set Create tree that classiﬁes training set correctly Non-Boolean Features • Features with multiple discrete values – Multi-way splits – Test for one value versus the rest – Group values into disjoint sets • Real-valued features – Use thresholds • Regression – Splits based on mean squared error metric Decision Tree Learning, Formal Guarantees Labeled Examples Supervised Learning or Function Approximation Learning Algorithm Expert / Oracle Data Source Alg.outputs Distribution D on X c* : X",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk101",
+        "chunk": "Y (x1,c*(x1)),…, (xm,c*(xm)) h : X",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk102",
+        "chunk": "Y x1 > 5 x6 > 2 +1 -1 +1 Labeled Examples Learning Algorithm Expert/Oracle Data Source Alg.outputs c* : X",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk103",
+        "chunk": "Y (x1,c*(x1)),…, (xm,c*(xm)) • Algo sees training sample S: (x1,c*(x1)),…, (xm,c*(xm)), xi i.i.d. from D Distribution D on X err(h)=Prx 2 D(h(x) ≠ c*(x)) • Does optimization over S, finds hypothesis h (e.g., a decision tree). • Goal: h has small error over D. Supervised Learning or Function Approximation Two Core Aspects of Machine Learning Algorithm Design. How to optimize",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk104",
+        "chunk": "Automatically generate rules that do well on observed data. Confidence Bounds, Generalization Confidence for rule effectiveness on future data. Computation • Very well understood: Occam’s bound, VC theory, etc. (Labeled) Data • Decision trees: if we were able to find a small decision tree that explains data well, then good generalization guarantees. • NP-hard [Hyafil-Rivest’76] Top Down Decision Trees Algorithms • Decision trees: if we were able to find a small decision tree consistent with the data, then good generalization guarantees. • NP-hard [Hyafil-Rivest’76] • Very nice practical heuristics; top down algorithms, e.g, ID3 • Natural greedy approaches where we grow the tree from the root to the leaves by repeatedly replacing an existing leaf with an internal node. • Key point: splitting criterion. • ID3: split the leaf that decreases the entropy the most. • Why not split according to error rate --- this is what we care about after all",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk105",
+        "chunk": "• There are examples where we can get stuck in local minima",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk106",
+        "chunk": "• Natural greedy approaches where we grow the tree from the root to the leaves by repeatedly replacing an existing leaf with an internal node. • Key point: splitting criterion. • ID3: split the leaf that decreases the entropy the most. • Why not split according to error rate --- this is what we care about after all",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk107",
+        "chunk": "• There are examples where you can get stuck",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk108",
+        "chunk": "Top Down Decision Trees Algorithms • [Kearns-Mansour’96]: if measure of progress is entropy, we can always guarantees success under some formal relationships between the class of splits and the target (the class of splits can weakly approximate the target function). • Provides a way to think about the effectiveness of various top down algos. Two Core Aspects of Machine Learning Algorithm Design. How to optimize",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk109",
+        "chunk": "Automatically generate rules that do well on observed data. Confidence Bounds, Generalization Confidence for rule effectiveness on future data. Computation (Labeled) Data Homework 1 • Which feature will be at the root node of the decision tree trained for the following data",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk110",
+        "chunk": "In other words which attribute makes a person most attractive",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk111",
+        "chunk": "Height Hair Eyes Attractive",
+        "method": "semantic_chunk"
+    },
+    {
+        "id": "chunk112",
+        "chunk": "small blonde brown No tall dark brown No tall blonde blue Yes tall dark Blue No small dark Blue No tall red Blue Yes tall blonde brown No small blonde blue Yes",
+        "method": "semantic_chunk"
+    }
+]
